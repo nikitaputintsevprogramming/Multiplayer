@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HelloWorld
 {
-    public class HelloWorldPlayer : NetworkBehaviour
+    public class Player : NetworkBehaviour
     {
         public NetworkVariable<Vector3> Position = new NetworkVariable<Vector3>();
 
@@ -17,11 +17,11 @@ namespace HelloWorld
 
         public void Move()
         {
-            SubmitPositionRequestRpc();
+            SubmitPositionRequestServerRpc();
         }
 
         [Rpc(SendTo.Server)]
-        void SubmitPositionRequestRpc(RpcParams rpcParams = default)
+        void SubmitPositionRequestServerRpc(RpcParams rpcParams = default)
         {
             var randomPosition = GetRandomPositionOnPlane();
             transform.position = randomPosition;
@@ -35,7 +35,7 @@ namespace HelloWorld
 
         void Update()
         {
-            transform.position = Position.Value;
+            transform.position = Vector3.Lerp(transform.position, Position.Value, Time.deltaTime);
         }
     }
 }
