@@ -24,7 +24,7 @@ namespace HelloWorld
         void SubmitPositionRequestServerRpc(RpcParams rpcParams = default)
         {
             var randomPosition = GetRandomPositionOnPlane();
-            transform.position = randomPosition;
+            transform.position = Vector3.Lerp(transform.position, randomPosition, Time.deltaTime);
             Position.Value = randomPosition;
         }
 
